@@ -16,5 +16,12 @@ class BaleController extends Controller
         $data = $request->all();
         Log::info($data ['message']['text']);
         Log::info($data ['message']['chat']['id']);
+
+        BaleBot::sendMessage($data ['message']['chat']['id'], $data ['message']['text']);
+    }
+
+    public function sendMessage(Request $request)
+    {
+        BaleBot::sendMessage($request->chat_id, $request->text);
     }
 }

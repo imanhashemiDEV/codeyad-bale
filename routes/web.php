@@ -13,6 +13,7 @@ Route::get('/', function () {
 
 Route::prefix('bale')->group(function (){
     Route::post('/', [BaleController::class,'bale']);
+    Route::post('/send_message', [BaleController::class,'sendMessage']);
 });
 
 

@@ -19,17 +19,23 @@ class BaleController extends Controller
        // BaleBot::sendMessage($data ['message']['chat']['id'], $data ['message']['text']);
        // Log::info($data['callback_query']['data']);
 
+        // https://jsonviewer.stack.hu/
+         Log::info(json_encode($data));
+
+       // BaleBot::sendReplyButtonMessage($data ['message']['chat']['id'], $data ['message']['text']);
+
         if(isset($data['callback_query'])){
             match ($data['callback_query']['data']) {
-                'save'=>  BaleBot::sendMessage(665975322,'روی دکمه ذخیره کلیک شد'),
+                'save'=>  BaleBot::sendMessage($data['callback_query']['chat_instance'],'روی دکمه ذخیره کلیک شد'),
             };
         }
 
         if(isset($data['message'])){
          match ($data ['message']['text']) {
-             '/start'=> BaleBot::sendMessage($data ['message']['chat']['id'], 'به ربات ما خوش آمدید'),
+             '/start'=> BaleBot::sendReplyButtonMessage($data ['message']['chat']['id'], 'به ربات ما خوش آمدید'),
              '/pay'=>  BaleBot::sendMessage($data ['message']['chat']['id'], 'با تشکر از پرداخت شما'),
              'inline'=>  BaleBot::sendInlineButtonMessage(665975322,'روی دکمه کلیک کن'),
+             default => BaleBot::sendMessage($data ['message']['chat']['id'],$data ['message']['text'] ),
          };
         }
 

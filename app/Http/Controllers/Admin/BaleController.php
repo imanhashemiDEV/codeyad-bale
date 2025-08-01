@@ -18,26 +18,26 @@ class BaleController extends Controller
        // Log::info($data ['message']['chat']['id']);
        // BaleBot::sendMessage($data ['message']['chat']['id'], $data ['message']['text']);
        // Log::info($data['callback_query']['data']);
-
-        // https://jsonviewer.stack.hu/
-         Log::info(json_encode($data));
+       // BaleBot::sendPhoto($data ['message']['chat']['id'], $data ['message']['from']['id'],'665975322:6630598287524830977:0:eb28410524568edad1b74b011b1141e4');
+         BaleBot::forwardMessage($data ['message']['chat']['id'], $data ['message']['from']['id'],$data ['message']['message_id']);
+        // Log::info(json_encode($data));
 
        // BaleBot::sendReplyButtonMessage($data ['message']['chat']['id'], $data ['message']['text']);
 
-        if(isset($data['callback_query'])){
-            match ($data['callback_query']['data']) {
-                'save'=>  BaleBot::sendMessage($data['callback_query']['chat_instance'],'روی دکمه ذخیره کلیک شد'),
-            };
-        }
-
-        if(isset($data['message'])){
-         match ($data ['message']['text']) {
-             '/start'=> BaleBot::sendReplyButtonMessage($data ['message']['chat']['id'], 'به ربات ما خوش آمدید'),
-             '/pay'=>  BaleBot::sendMessage($data ['message']['chat']['id'], 'با تشکر از پرداخت شما'),
-             'inline'=>  BaleBot::sendInlineButtonMessage(665975322,'روی دکمه کلیک کن'),
-             default => BaleBot::sendMessage($data ['message']['chat']['id'],$data ['message']['text'] ),
-         };
-        }
+//        if(isset($data['callback_query'])){
+//            match ($data['callback_query']['data']) {
+//                'save'=>  BaleBot::sendMessage($data['callback_query']['chat_instance'],'روی دکمه ذخیره کلیک شد'),
+//            };
+//        }
+//
+//        if(isset($data['message'])){
+//         match ($data ['message']['text']) {
+//             '/start'=> BaleBot::sendReplyButtonMessage($data ['message']['chat']['id'], 'به ربات ما خوش آمدید'),
+//             '/pay'=>  BaleBot::sendMessage($data ['message']['chat']['id'], 'با تشکر از پرداخت شما'),
+//             'inline'=>  BaleBot::sendInlineButtonMessage(665975322,'روی دکمه کلیک کن'),
+//             default => BaleBot::sendMessage($data ['message']['chat']['id'],$data ['message']['text'] ),
+//         };
+//        }
 
 
     }

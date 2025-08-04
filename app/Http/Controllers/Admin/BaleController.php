@@ -19,9 +19,9 @@ class BaleController extends Controller
        // BaleBot::sendMessage($data ['message']['chat']['id'], $data ['message']['text']);
        // Log::info($data['callback_query']['data']);
        // BaleBot::sendPhoto($data ['message']['chat']['id'], $data ['message']['from']['id'],'665975322:6630598287524830977:0:eb28410524568edad1b74b011b1141e4');
-         BaleBot::forwardMessage($data ['message']['chat']['id'], $data ['message']['from']['id'],$data ['message']['message_id']);
-        // Log::info(json_encode($data));
-
+        // BaleBot::forwardMessage($data ['message']['chat']['id'], $data ['message']['from']['id'],$data ['message']['message_id']);
+         Log::info(json_encode($data));
+         BaleBot::sendMessage($data ['message']['chat']['id'], $data ['message']['text']);
        // BaleBot::sendReplyButtonMessage($data ['message']['chat']['id'], $data ['message']['text']);
 
 //        if(isset($data['callback_query'])){

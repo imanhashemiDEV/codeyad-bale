@@ -3,6 +3,6 @@
 https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/getMe
 
 // set web hook
-https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/setWebhook?url=https://z150j1wzqe.sharedwithexpose.com/bale
+https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/setWebhook?url=https://r5ab4ygvcm.sharedwithexpose.com/bale
 
 user_id = 665975322

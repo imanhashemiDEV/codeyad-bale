@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Facades\BaleBot;
 use App\Http\Controllers\Controller;
 use App\Livewire\Auth\Login;
+use App\Models\BaleUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -21,7 +22,7 @@ class BaleController extends Controller
        // BaleBot::sendPhoto($data ['message']['chat']['id'], $data ['message']['from']['id'],'665975322:6630598287524830977:0:eb28410524568edad1b74b011b1141e4');
         // BaleBot::forwardMessage($data ['message']['chat']['id'], $data ['message']['from']['id'],$data ['message']['message_id']);
          Log::info(json_encode($data));
-         BaleBot::sendMessage($data ['message']['chat']['id'], $data ['message']['text']);
+        // BaleBot::sendMessage($data ['message']['chat']['id'], $data ['message']['text']);
        // BaleBot::sendReplyButtonMessage($data ['message']['chat']['id'], $data ['message']['text']);
 
 //        if(isset($data['callback_query'])){
@@ -39,6 +40,16 @@ class BaleController extends Controller
 //         };
 //        }
 
+        if(isset($data ['message']['chat']['type']) && $data ['message']['chat']['type'] == 'private'){
+            if(!BaleUser::query()->where('bale_id', $data['message']['from']['id'])->exists()){
+                BaleUser::query()->create([
+                    'bale_id' => $data['message']['from']['id'],
+                    'first_name' => $data['message']['from']['first_name'],
+                ]);
+
+                BaleBot::sendMessage($data ['message']['chat']['id'], 'کاربر جدید ذخیره شد');
+            }
+        }
 
     }
 

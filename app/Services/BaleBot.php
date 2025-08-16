@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Http;
 
 class BaleBot
 {
-    public function getUpdates()
+    public function getUpdates(): void
     {
-        return 'updates';
+        Http::get('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/getUpdates');
     }
 
     public function sendMessage($chat_id, $text): void

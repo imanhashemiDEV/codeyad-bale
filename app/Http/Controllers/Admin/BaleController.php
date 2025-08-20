@@ -75,20 +75,18 @@ class BaleController extends Controller
             'token' => '246358:66b6007544749'
         ]);
 
-        $items = collect($response->json()['result'])->take(4);
+        $items = collect($response->json()['result'])->take(6);
 
         $buttons = [];
         foreach ($items as $item) {
-            $buttons[] = ['text' => $item['name'], 'callback_data' => $item['key']];
+            $buttons[][] = ['text' => $item['name'], 'callback_data' => $item['key']];
         }
 
         Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendMessage', [
             'chat_id' => $chat_id,
             'text' => 'یک ارز را انتخاب کنید',
             'reply_markup' => json_encode([
-                'inline_keyboard' => [
-                    $buttons
-                ]
+                'inline_keyboard' => $buttons
             ])
         ]);
     }

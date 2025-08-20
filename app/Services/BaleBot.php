@@ -47,7 +47,7 @@ class BaleBot
                     [
                         [
                             'text'=>'ذخیره',
-                            'callback_data'=>'save'
+                            'callback_data'=>'save',
                         ]
                     ]
                 ]

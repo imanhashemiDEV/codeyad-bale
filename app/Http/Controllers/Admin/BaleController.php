@@ -24,24 +24,50 @@ class BaleController extends Controller
             };
         }
 
+        if (isset($data['callback_query'])) {
+            match ($data['callback_query']['data']) {
+                '/products' => $this->getProductsList($data['callback_query']['chat_instance']),
+                // $data['callback_query']['data'] => BaleBot::sendMessage($data['callback_query']['chat_instance'], $data['callback_query']['data']),
+                //$data['callback_query']['data'] => $this->getCryptoPrice($data['callback_query']['chat_instance'], $data['callback_query']['data'])
+            };
+        }
+
     }
 
     public function showStoreMenu($chat_id)
     {
-        Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendMessage',[
-            'chat_id'=>$chat_id,
-            'text'=>'لطفا یکی از گزینه ها را انتخاب کنید',
-            'reply_markup'=> json_encode([
-                'inline_keyboard'=>[
+        Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendMessage', [
+            'chat_id' => $chat_id,
+            'text' => 'لطفا یکی از گزینه ها را انتخاب کنید',
+            'reply_markup' => json_encode([
+                'inline_keyboard' => [
                     [
-                        ['text'=>'لیست محصولات', 'callback_data'=>'products'],
-                        ['text'=>'سبد خرید', 'callback_data'=>'cart'],
+                        ['text' => 'لیست محصولات', 'callback_data' => '/products'],
+                        ['text' => 'سبد خرید', 'callback_data' => '/cart'],
                     ]
                 ]
             ])
         ]);
     }
 
+    public function getProductsList($chat_id)
+    {
+
+        $products = Product::query()->get();
+
+        $buttons = [];
+        foreach ($products as $product) {
+            $buttons[][] = ['text' => $product->name . ' - ' . $product->price .' '.'تومان', 'callback_data' => "product/$product->id"];
+        }
+
+        Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendMessage', [
+            'chat_id' => $chat_id,
+            'text' => 'یک محصول را انتخاب کنید',
+            'reply_markup' => json_encode([
+                'inline_keyboard' => $buttons
+            ])
+        ]);
+    }
 
 
     public function sendMessage(Request $request)

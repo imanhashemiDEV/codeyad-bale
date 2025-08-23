@@ -7,6 +7,7 @@ use App\Facades\BaleBot;
 use App\Http\Controllers\Controller;
 use App\Livewire\Auth\Login;
 use App\Models\BaleUser;
+use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -25,10 +26,11 @@ class BaleController extends Controller
         }
 
         if (isset($data['callback_query'])) {
+            Log::info($data['callback_query']['data']);
             match ($data['callback_query']['data']) {
                 '/products' => $this->getProductsList($data['callback_query']['chat_instance']),
+                $data['callback_query']['data'] => $this->addToCart($data['callback_query']['chat_instance'], $data['callback_query']['data'])
                 // $data['callback_query']['data'] => BaleBot::sendMessage($data['callback_query']['chat_instance'], $data['callback_query']['data']),
-                //$data['callback_query']['data'] => $this->getCryptoPrice($data['callback_query']['chat_instance'], $data['callback_query']['data'])
             };
         }
 
@@ -68,6 +70,26 @@ class BaleController extends Controller
             ])
         ]);
     }
+
+    public function addToCart($chat_id , $data)
+{
+    Log::info('ok');
+    $array = explode('/',$data);
+    $id = end($array) ;
+    $cart = Cart::query()->where('product_id',$id)->where('bale_user_id',$chat_id)->first();
+    if ($cart) {
+        $cart->increment('count');
+    }else{
+        Cart::query()->create([
+            'bale_user_id'=>$chat_id,
+            'product_id'=>$id,
+            'count'=>1,
+        ]);
+    }
+
+    BaleBot::sendMessage($chat_id,'محصول به سبد خرید اضافه شد');
+
+}
 
 
     public function sendMessage(Request $request)

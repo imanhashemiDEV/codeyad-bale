@@ -73,7 +73,6 @@ class BaleController extends Controller
 
     public function addToCart($chat_id , $data)
 {
-    Log::info('ok');
     $array = explode('/',$data);
     $id = end($array) ;
     $cart = Cart::query()->where('product_id',$id)->where('bale_user_id',$chat_id)->first();

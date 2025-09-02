@@ -13,41 +13,41 @@ class BaleBot
 
     public function sendMessage($chat_id, $text): void
     {
-       Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendMessage',[
-           'chat_id'=>$chat_id,
-           'text'=>$text,
-       ]);
-    }
-
-    public function forwardMessage($chat_id, $from_chat_id,$message_id): void
-    {
-        Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/forwardMessage',[
-            'chat_id'=>$chat_id,
-            'from_chat_id'=>$from_chat_id,
-            'message_id'=>$message_id,
+        Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendMessage', [
+            'chat_id' => $chat_id,
+            'text' => $text,
         ]);
     }
 
-    public function sendPhoto($chat_id,$from_chat_id, $photo): void
+    public function forwardMessage($chat_id, $from_chat_id, $message_id): void
     {
-        Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendPhoto',[
-            'chat_id'=>$chat_id,
-            'from_chat_id'=>$from_chat_id,
-            'photo'=>$photo,
+        Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/forwardMessage', [
+            'chat_id' => $chat_id,
+            'from_chat_id' => $from_chat_id,
+            'message_id' => $message_id,
+        ]);
+    }
+
+    public function sendPhoto($chat_id, $from_chat_id, $photo): void
+    {
+        Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendPhoto', [
+            'chat_id' => $chat_id,
+            'from_chat_id' => $from_chat_id,
+            'photo' => $photo,
         ]);
     }
 
     public function sendInlineButtonMessage($chat_id, $text): void
     {
-        Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendMessage',[
-            'chat_id'=>$chat_id,
-            'text'=>$text,
-            'reply_markup'=> json_encode([
-                'inline_keyboard'=>[
+        Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendMessage', [
+            'chat_id' => $chat_id,
+            'text' => $text,
+            'reply_markup' => json_encode([
+                'inline_keyboard' => [
                     [
                         [
-                            'text'=>'ذخیره',
-                            'callback_data'=>'save',
+                            'text' => 'ذخیره',
+                            'callback_data' => 'save',
                         ]
                     ]
                 ]
@@ -57,15 +57,39 @@ class BaleBot
 
     public function sendReplyButtonMessage($chat_id, $text): void
     {
-        Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendMessage',[
-            'chat_id'=>$chat_id,
-            'text'=>$text,
-            'reply_markup'=> json_encode([
-                'keyboard'=>[
-                    [ 'سلام','حال شما چطوره'],
+        Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendMessage', [
+            'chat_id' => $chat_id,
+            'text' => $text,
+            'reply_markup' => json_encode([
+                'keyboard' => [
+                    ['سلام', 'حال شما چطوره'],
                     ['خداحافظ']
                 ],
-                'resize_keyboard'=>true,
+                'resize_keyboard' => true,
+            ])
+        ]);
+    }
+
+
+    public function sendInvoice($chat_id, $title, $description)
+    {
+        return Http::post('https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/sendInvoice', [
+            'chat_id' => $chat_id,
+            'title' => 'title',
+            'description' => 'description',
+            'payload' => 'payload',
+            'provider_token' => 'RvaJuQBhocK2mkaQ',
+            'prices' => json_encode([
+                'LabeledPrice' => [
+                    [
+                        [
+                            'label' => 'محصول1',
+                            'amount' => 100000,
+                        ]
+                    ]
+
+                ]
+
             ])
         ]);
     }

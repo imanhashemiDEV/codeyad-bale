@@ -3,7 +3,7 @@
 https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/getMe
 
 // set web hook
-https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/setWebhook?url=https://ipr6l65j9u.sharedwithexpose.com/bale
+https://tapi.bale.ai/2082724310:dLjGsp9qoJi85PEWr3vc9zL3xG9c1aofrFVrTD6F/setWebhook?url=https://k9fmjoo8vv.sharedwithexpose.com/bale
 
 
 

@@ -26,6 +26,7 @@ class BaleController extends Controller
             match ($data ['message']['text']) {
                 '/start' => $this->sayHello($data ['message']['chat']['id']),
                 '/chat' =>$this->requestChat($data ['message']['chat']['id']),
+                '/closeChat' =>$this->closeChat($data ['message']['chat']['id']),
                 default =>$this->chat($data ['message']['chat']['id'], $data ['message']['text']),           };
         }
 
@@ -50,9 +51,9 @@ class BaleController extends Controller
     {
         $request = UserRequest::query()->where('bale_user_id','!=',$chat_id)->where('status',ChatStatus::Pending->value)->first();
         if($request){
-            $request->update([
-                'status'=>ChatStatus::Closed->value
-            ]);
+//            $request->update([
+//                'status'=>ChatStatus::Closed->value
+//            ]);
             $active_chat = Chat::query()
                 ->where('host_id',$request->bale_user_id)
                 ->where('guest_id',$chat_id)
@@ -103,6 +104,43 @@ class BaleController extends Controller
             }
 
         }
+    }
+
+    public function closeChat($chat_id)
+    {
+
+        $active_chat = Chat::query()
+            ->where(function ($q)use($chat_id){
+                $q->where('host_id',$chat_id)
+                    ->orwhere('guest_id',$chat_id);
+            })
+            ->where('status',ChatStatus::Started->value)
+            ->first();
+
+        if($active_chat){
+            $active_chat->update([
+                'status'=>ChatStatus::Closed->value
+            ]);
+        }
+
+
+        $request = UserRequest::query()
+            ->where(function ($q) use($active_chat){
+                $q->where('bale_user_id',$active_chat->host_id)
+                    ->orwhere('bale_user_id',$active_chat->guest_id);
+            })
+            ->where('status',ChatStatus::Pending->value)
+            ->first();
+        if($request){
+            $request->update([
+                'status'=>ChatStatus::Closed->value
+            ]);
+        }
+
+        BaleBot::sendMessage($active_chat->host_id, 'چت شما به پایان رسید');
+        BaleBot::sendMessage($active_chat->guest_id, 'چت شما به پایان رسید');
+
+
     }
 
     public function sendMessage(Request $request)
